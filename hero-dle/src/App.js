@@ -5,13 +5,28 @@ import MultiLobby from "./pages/MultiLobby";
 import "./styles.css";
 
 function App() {
-  const [mode, setMode] = useState("home");
-  const [univers, setUnivers] = useState("overwatch");
+  // On tente de récupérer une sauvegarde pour initialiser le mode
+  const [save, setSave] = useState(() => {
+    const data = localStorage.getItem("herodle_save");
+    return data ? JSON.parse(data) : null;
+  });
+
+  // Si une sauvegarde existe, on va directement en mode "game"
+  const [mode, setMode] = useState(save ? "game" : "home");
+  const [univers, setUnivers] = useState(save ? save.univers : "overwatch");
   const [multiData, setMultiData] = useState(null);
 
   const startMultiGame = (data) => {
     setMultiData(data);
     setMode("game-multi");
+  };
+
+  // Fonction centrale pour quitter et nettoyer la mémoire
+  const exitToHome = () => {
+    localStorage.removeItem("herodle_save");
+    setSave(null);
+    setMultiData(null);
+    setMode("home");
   };
 
   return (
@@ -20,8 +35,24 @@ function App() {
         <Home setMode={setMode} setUnivers={setUnivers} univers={univers} />
       )}
 
+      {/* Mode Solo (ou restauré) */}
       {mode === "solo" && (
-        <Game type="solo" univers={univers} setMode={setMode} />
+        <Game 
+          type="solo" 
+          univers={univers} 
+          setMode={exitToHome} 
+        />
+      )}
+
+      {/* Mode spécial pour la restauration après rafraîchissement */}
+      {mode === "game" && save && (
+        <Game 
+          type={save.type} 
+          univers={save.univers} 
+          externalTarget={save.target} 
+          externalHeroes={save.allHeroes}
+          setMode={exitToHome} 
+        />
       )}
 
       {mode === "lobby" && (
@@ -38,7 +69,7 @@ function App() {
           univers={multiData.univers} 
           externalTarget={multiData.target} 
           externalHeroes={multiData.allHeroes}
-          setMode={setMode} 
+          setMode={exitToHome} 
         />
       )}
     </div>

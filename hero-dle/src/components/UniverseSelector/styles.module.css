@@ -1,0 +1,89 @@
+.univers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.title {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.universGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 15px;
+  width: 100%;
+}
+
+.universBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 10px;
+  
+  background: white;
+  border: 4px solid #000;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0px #000;
+  transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.universBtn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0px #000;
+}
+
+.universBtn.active {
+  background: #6278E3;
+  color: #fff; 
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #000;
+}
+
+.uIcon {
+  font-size: 2.2rem;
+  transition: transform 0.2s ease;
+}
+
+.universBtn:hover .uIcon {
+  transform: scale(1.1);
+}
+
+.uName {
+  font-weight: 900;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .universGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .universBtn {
+    padding: 15px 5px;
+    box-shadow: 4px 4px 0px #000;
+    border-width: 3px;
+  }
+
+  .universBtn.active {
+    transform: translate(3px, 3px);
+  }
+
+  .uIcon {
+    font-size: 1.8rem;
+  }
+
+  .uName {
+    font-size: 0.75rem;
+  }
+}

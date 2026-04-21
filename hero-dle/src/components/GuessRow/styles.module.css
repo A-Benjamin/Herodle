@@ -1,0 +1,95 @@
+.heroCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 160px;
+}
+
+.heroName {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.correct,
+.wrong,
+.close {
+  color: white;
+  font-weight: 600;
+  position: relative;
+  animation: flip 0.5s ease forwards;
+  animation-delay: var(--delay, 0s);
+  transform: rotateX(90deg);
+  backface-visibility: hidden;
+}
+
+@keyframes flip {
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.correct {
+  background: #22c55e !important;
+}
+
+.close {
+  background: #f59e0b !important;
+}
+
+.wrong {
+  background: #ef4444 !important;
+}
+
+.divImg {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.divImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.cellValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+
+@media (max-width: 600px) {
+  .heroCell {
+    min-width: 100px;
+    gap: 6px;
+  }
+
+  .heroName {
+    font-size: 0.7rem;
+  }
+
+  .divImg {
+    width: 35px;
+    height: 35px;
+    border-width: 2px;
+  }
+
+  .correct,
+  .wrong,
+  .close {
+    border-width: 2px;
+    box-shadow: 2px 2px 0px #000;
+    font-size: 0.75rem;
+  }
+
+  .cellValue {
+    gap: 4px;
+  }
+}

@@ -9,3 +9,10 @@
   box-sizing: border-box;
   gap: 20px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  min-height: 80vh;       /* Prend toute la hauteur de l'écran */
+}

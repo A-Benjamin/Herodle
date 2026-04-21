@@ -3,7 +3,10 @@ import SearchBar from "../../components/SearchBar";
 import GuessTable from "../../components/GuessTable";
 import WinCard from "../../components/WinCard";
 import Title from "../../components/Title";
+import InfoBulle from '../../components/InfoBulle';
 import styles from './styles.module.css';
+
+const API_URL = process.env.REACT_APP_API_URL || "https://herodle.onrender.com";
 
 function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
   const [target, setTarget] = useState(externalTarget || null);
@@ -15,7 +18,7 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
   useEffect(() => {
     const fetchSoloGame = async () => {
       setLoading(true);
-      const res = await fetch("https://herodle.onrender.com/createGame", {
+      const res = await fetch(`${API_URL}/createGame`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "solo", univers })
@@ -39,7 +42,9 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
     }
   };
 
-  if (loading) return <div className={styles.loading}>Chargement...</div>;
+  if (loading) return <div className={styles.loading}>
+    <InfoBulle subtitle={"Le serveur est en cours de lancement, merci de patienter."} />
+  </div>;
 
   const isWin = guesses.some(g => g.id === target?.id);
 

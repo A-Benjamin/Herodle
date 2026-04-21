@@ -3,6 +3,8 @@ import Title from "../../components/Title";
 import Button from "../../components/Button";
 import styles from "./styles.module.css";
 
+const API_URL = process.env.REACT_APP_API_URL || "https://herodle.onrender.com";
+
 function MultiLobby({ setMode, univers, onGameReady }) {
   const [inputCode, setInputCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState(null);
@@ -13,7 +15,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
     if (generatedCode) {
       interval = setInterval(async () => {
         try {
-          const res = await fetch(`https://herodle.onrender.com/checkStatus/${generatedCode}`);
+          const res = await fetch(`${API_URL}/checkStatus/${generatedCode}`);
           const data = await res.json();
           if (data.ready) {
             clearInterval(interval);
@@ -28,7 +30,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
   const handleCreate = async () => {
     setLoading(true);
     try {
-      const res = await fetch("https://herodle.onrender.com/createGame", {
+      const res = await fetch(`${API_URL}/createGame`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "multi", univers })
@@ -42,7 +44,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
   const handleJoin = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`https://herodle.onrender.com/joinGame/${inputCode}`);
+      const res = await fetch(`${API_URL}/joinGame/${inputCode}`);
       if (res.ok) {
         const data = await res.json();
         onGameReady(data);
@@ -72,9 +74,9 @@ function MultiLobby({ setMode, univers, onGameReady }) {
 
       <div className={styles.card}>
         <h2 className={styles.sectionTitle}>Rejoindre</h2>
-        <input 
+        <input
           className={styles.codeInput}
-          value={inputCode} 
+          value={inputCode}
           onChange={(e) => setInputCode(e.target.value.toUpperCase())}
           placeholder="CODE"
           maxLength={4}

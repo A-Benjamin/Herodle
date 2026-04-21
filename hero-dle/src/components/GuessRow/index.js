@@ -43,9 +43,11 @@ function GuessRow({ guess, target, columns = [] }) {
           >
             {key === "nom" ? (
               <div className={styles.heroCell}>
-                <div className={styles.divImg}>
-                  <img src={guess.img} alt={guess.nom} />
-                </div>
+                {guess.img &&
+                  <div className={styles.divImg}>
+                    <img src={guess.img} alt={guess.nom} />
+                  </div>
+                }
                 <span className={styles.heroName}>{guess.nom}</span>
               </div>
             ) : (

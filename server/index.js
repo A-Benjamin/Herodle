@@ -6,11 +6,8 @@ import dcHeros from "./data/dc.js";
 
 const app = express();
 
-// --- MODIFICATION 1 : Le CORS ---
-// On autorise Vercel à appeler cette API
 app.use(cors({
-  origin: "*" // Dans un premier temps pour tester, on autorise tout. 
-              // Plus tard, tu mettras ton lien Vercel précis.
+  origin: "*"
 }));
 
 app.use(express.json());
@@ -23,7 +20,15 @@ const universes = {
 
 const games = {};
 
-// Tes routes restent les mêmes...
+app.get("/universes", (req, res) => {
+  const menuData = [
+    { id: "overwatch", name: "Overwatch", icon: "🚀" },
+    { id: "marvel", name: "Marvel", icon: "🦸‍♂️" },
+    { id: "dc", name: "DC Universe", icon: "🦇" }
+  ];
+  res.json(menuData);
+});
+
 app.post("/createGame", (req, res) => {
   const { type, univers } = req.body;
   const heroList = universes[univers?.toLowerCase()];
@@ -54,8 +59,6 @@ app.get("/checkStatus/:code", (req, res) => {
   }
 });
 
-// --- MODIFICATION 2 : Le PORT ---
-// Render impose un port dynamique via process.env.PORT
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Serveur prêt sur le port ${PORT}`);

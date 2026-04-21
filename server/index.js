@@ -5,7 +5,14 @@ import marvelHeros from "./data/marvel.js";
 import dcHeros from "./data/dc.js";
 
 const app = express();
-app.use(cors());
+
+// --- MODIFICATION 1 : Le CORS ---
+// On autorise Vercel à appeler cette API
+app.use(cors({
+  origin: "*" // Dans un premier temps pour tester, on autorise tout. 
+              // Plus tard, tu mettras ton lien Vercel précis.
+}));
+
 app.use(express.json());
 
 const universes = {
@@ -16,14 +23,12 @@ const universes = {
 
 const games = {};
 
-// Création de partie (Solo ou Multi)
+// Tes routes restent les mêmes...
 app.post("/createGame", (req, res) => {
   const { type, univers } = req.body;
   const heroList = universes[univers?.toLowerCase()];
   if (!heroList) return res.status(404).json({ error: "Univers inconnu" });
-
   const target = heroList[Math.floor(Math.random() * heroList.length)];
-
   if (type === "multi") {
     const code = Math.random().toString(36).substring(2, 6).toUpperCase();
     games[code] = { target, univers, players: 1, allHeroes: heroList };
@@ -32,17 +37,14 @@ app.post("/createGame", (req, res) => {
   return res.json({ allHeroes: heroList, target });
 });
 
-// Rejoindre une partie
 app.get("/joinGame/:code", (req, res) => {
   const code = req.params.code.toUpperCase();
   const game = games[code];
   if (!game) return res.status(404).json({ error: "Partie non trouvée" });
-
-  game.players = 2; // On déclenche le statut "ready" pour le créateur
+  game.players = 2;
   res.json({ target: game.target, allHeroes: game.allHeroes, univers: game.univers });
 });
 
-// Vérification du statut (Polling pour le créateur)
 app.get("/checkStatus/:code", (req, res) => {
   const game = games[req.params.code.toUpperCase()];
   if (game && game.players >= 2) {
@@ -52,4 +54,9 @@ app.get("/checkStatus/:code", (req, res) => {
   }
 });
 
-app.listen(3001, () => console.log("🚀 Serveur prêt sur http://localhost:3001"));
+// --- MODIFICATION 2 : Le PORT ---
+// Render impose un port dynamique via process.env.PORT
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Serveur prêt sur le port ${PORT}`);
+});

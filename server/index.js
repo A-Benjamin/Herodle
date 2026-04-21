@@ -15,7 +15,6 @@ app.use(express.json());
 const universes = {
   overwatch: ow.map((h, i) => ({ id: `ow-${i}`, ...h, universe: "overwatch" })),
   marvel: marvelHeros.map((h, i) => ({ id: `mar-${i}`, ...h, universe: "marvel" })),
-  dc: dcHeros.map((h, i) => ({ id: `dc-${i}`, ...h, universe: "dc" }))
 };
 
 const games = {};
@@ -24,7 +23,6 @@ app.get("/universes", (req, res) => {
   const menuData = [
     { id: "overwatch", name: "Overwatch", icon: "🚀" },
     { id: "marvel", name: "Marvel", icon: "🦸‍♂️" },
-    { id: "dc", name: "DC Universe", icon: "🦇" }
   ];
   res.json(menuData);
 });

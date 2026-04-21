@@ -13,23 +13,23 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
   const [loading, setLoading] = useState(!externalTarget);
 
   useEffect(() => {
+    const fetchSoloGame = async () => {
+      setLoading(true);
+      const res = await fetch("https://herodle.onrender.com/createGame", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "solo", univers })
+      });
+      const data = await res.json();
+      setTarget(data.target);
+      setAllHeros(data.allHeroes);
+      setLoading(false);
+    };
+
     if (type === "solo") {
       fetchSoloGame();
     }
   }, [type, univers]);
-
-  const fetchSoloGame = async () => {
-    setLoading(true);
-    const res = await fetch("http://localhost:3001/createGame", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "solo", univers })
-    });
-    const data = await res.json();
-    setTarget(data.target);
-    setAllHeros(data.allHeroes);
-    setLoading(false);
-  };
 
   const handleGuess = (nom) => {
     const hero = allHeros.find(h => h.nom === nom);
@@ -46,7 +46,7 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
   return (
     <div className={styles.gameContainer}>
       <Title title={type === "multi" ? "Duel Multijoueur" : "Partie Solo"} badgeText={univers} />
-      
+
       {!isWin && (
         <SearchBar onGuess={handleGuess} guesses={guesses} allHeroes={allHeros} />
       )}
@@ -54,10 +54,10 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
       {target && <GuessTable guesses={guesses} target={target} />}
 
       {isWin && (
-        <WinCard 
-          hero={target} 
-          attempts={attempts} 
-          onRestart={() => setMode("home")} 
+        <WinCard
+          hero={target}
+          attempts={attempts}
+          onRestart={() => setMode("home")}
         />
       )}
     </div>

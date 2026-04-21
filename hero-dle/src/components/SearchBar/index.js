@@ -52,7 +52,7 @@ function SearchBar({ onGuess, guesses = [], allHeroes = [] }) {
           {filtered.map(hero => (
             <li key={hero.id} onClick={() => handleSelect(hero)} className={styles.autocompleteItem}>
               <div className={styles.divImg}>
-                <img src={hero.img} className={styles.miniImg} />
+                <img src={hero.img} alt="hero icon" className={styles.miniImg} />
               </div>
               <span>{hero.nom}</span>
             </li>

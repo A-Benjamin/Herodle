@@ -10,7 +10,7 @@ import styles from './styles.module.css';
 const API_URL = process.env.REACT_APP_API_URL || "https://herodle.onrender.com";
 
 function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
-  // Initialisation : on prend d'abord les props, sinon on tente le localstorage
+
   const [target, setTarget] = useState(externalTarget || null);
   const [allHeros, setAllHeros] = useState(externalHeroes || []);
   const [guesses, setGuesses] = useState([]);
@@ -18,7 +18,6 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
   const [loading, setLoading] = useState(!externalTarget);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  // 1. Récupération des essais sauvegardés au montage (pour le F5)
   useEffect(() => {
     const saved = localStorage.getItem("herodle_save");
     if (saved) {
@@ -30,10 +29,9 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
     }
   }, []);
 
-  // 2. Fetch du héros à trouver (Uniquement en mode Solo neuf)
   useEffect(() => {
     const fetchSoloGame = async () => {
-      // Si on a déjà une cible (via props ou save), on ne fetch pas
+      
       if (target) return;
 
       setLoading(true);
@@ -58,10 +56,8 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
     }
   }, [type, univers, target]);
 
-  // 3. Logique de Victoire
   const isWin = guesses.some(g => g.id === target?.id);
 
-  // 4. SAUVEGARDE AUTOMATIQUE (C'est ici que la magie opère)
   useEffect(() => {
     if (guesses.length > 0 && target && !isWin) {
       const saveData = {
@@ -74,7 +70,6 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
       localStorage.setItem("herodle_save", JSON.stringify(saveData));
     }
 
-    // Si on a gagné, on vide la sauvegarde pour la prochaine partie
     if (isWin) {
       localStorage.removeItem("herodle_save");
     }
@@ -104,7 +99,6 @@ function Game({ type, univers, externalTarget, externalHeroes, setMode }) {
 
   return (
     <div className={styles.gameContainer}>
-      {/* MODAL PERSO : Apparaît seulement au clic sur Retour */}
       {showExitModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.customModal}>

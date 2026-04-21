@@ -13,7 +13,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
     if (generatedCode) {
       interval = setInterval(async () => {
         try {
-          const res = await fetch(`http://localhost:3001/checkStatus/${generatedCode}`);
+          const res = await fetch(`https://herodle.onrender.com/checkStatus/${generatedCode}`);
           const data = await res.json();
           if (data.ready) {
             clearInterval(interval);
@@ -28,7 +28,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
   const handleCreate = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3001/createGame", {
+      const res = await fetch("https://herodle.onrender.com/createGame", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "multi", univers })
@@ -42,7 +42,7 @@ function MultiLobby({ setMode, univers, onGameReady }) {
   const handleJoin = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3001/joinGame/${inputCode}`);
+      const res = await fetch(`https://herodle.onrender.com/joinGame/${inputCode}`);
       if (res.ok) {
         const data = await res.json();
         onGameReady(data);

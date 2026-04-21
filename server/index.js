@@ -21,8 +21,8 @@ const games = {};
 
 app.get("/universes", (req, res) => {
   const menuData = [
-    { id: "overwatch", name: "Overwatch", icon: "🚀" },
-    { id: "marvel", name: "Marvel", icon: "🦸‍♂️" },
+    { id: "overwatch", name: "Overwatch", img: "https://img.icons8.com/?size=100&id=63667&format=png&color=000000" },
+    { id: "marvel", name: "Marvel", img: "https://img.icons8.com/?size=100&id=rPcdh4Z53kzY&format=png&color=000000" },
   ];
   res.json(menuData);
 });

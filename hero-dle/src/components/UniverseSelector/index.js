@@ -10,7 +10,7 @@ import styles from './styles.module.css';
  * * @returns {JSX.Element} Une interface de sélection en grille avec retour visuel sur l'élément actif.
  */
 function UniverseSelector({ universList, currentUnivers, onSelect }) {
-
+  console.log(universList);
   return (
     <div className={styles.univers}>
       <p className={styles.title}>Sélectionne ton univers</p>
@@ -22,7 +22,7 @@ function UniverseSelector({ universList, currentUnivers, onSelect }) {
             className={`${styles.universBtn} ${currentUnivers === u.id ? styles.active : ""
               }`}
           >
-            <span className={styles.uIcon}>{u.icon}</span>
+            <img className={styles.uIcon} src={u.img} />
             <span className={styles.uName}>{u.name}</span>
           </button>
         ))}

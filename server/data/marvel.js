@@ -333,7 +333,7 @@ const marvelHeros = [
       "nom": "Ghost Rider",
       "année d'apparation": 1972,
       "armes": "Chaîne mystique/Armes à feu",
-      "couleur": "Noir/Rouge",
+      "couleur": "Noir",
       "equipe": "Aucune",
       "espèce": "Humain",
       "genre": "Homme",
